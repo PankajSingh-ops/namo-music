@@ -1,118 +1,86 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
 import React from 'react';
-import type {PropsWithChildren} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {RootStackParamList} from './types/types';
+import PublisherComponent from './components/PublisherComponent';
+import UserComponent from './components/UserComponent';
+import AuthScreen from './auth/AuthPage';
+import RegisterScreen from './auth/RegistrerScreen';
+import SignInScreen from './auth/SignInScreen';
+import SplashScreen from './components/SplashScreen';
+import HomeScreen from './pages/HomeScreen';
+import {AuthProvider} from './authContext/AuthContext';
+import UserHomeScreen from './pages/User/UserScreenPage';
+import UserDetails from './pages/User/UserDetails';
+import SongsScreen from './pages/common/user/UserSongsScreen';
+import ArtistsScreen from './pages/common/user/ArtistScreen';
+import DownloadsScreen from './pages/common/user/DownloadsScreen';
+import { SettingsScreen } from './pages/User/UserSettings';
+import ForgetPasswordScreen from './auth/ForgetPassword';
+import VerifyOTPScreen from './auth/VerifyOTP';
+import ResetPasswordScreen from './auth/ResetPassword';
+import NewMusic from './pages/common/newmusic/NewMusic';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+// Create Stack Navigator
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
-
-function Section({children, title}: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
+// Main App Component
+const App = () => {
   return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
+    <AuthProvider>
+      <NavigationContainer>
+        <Stack.Navigator
+          screenOptions={{
+            headerStyle: {backgroundColor: '#000'},
+            headerTintColor: '#fff',
+            headerTitleStyle: {color: '#fff'},
+          }}
+          initialRouteName="Splash">
+          <Stack.Screen
+            name="Splash"
+            component={SplashScreen}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="Home"
+            component={HomeScreen}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="PublisherScreen"
+            component={PublisherComponent}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="UserScreen"
+            component={UserComponent}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen name="auth" component={AuthScreen} />
+          <Stack.Screen name="Register" component={RegisterScreen} />
+          <Stack.Screen name="SignIn" component={SignInScreen} />
+          <Stack.Screen
+            name="Userhome"
+            component={UserHomeScreen}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen name="UserDetails" component={UserDetails} />
+          <Stack.Screen name="Songs" component={SongsScreen}  options={{headerShown: false}} />
+          <Stack.Screen name="Artists" component={ArtistsScreen}  options={{headerShown: false}} />
+          <Stack.Screen name="Downloads" component={DownloadsScreen}  options={{headerShown: false}} />
+          <Stack.Screen name="UserSettings" component={SettingsScreen}  options={{headerShown: false}} />
+          <Stack.Screen name="ForgetPassword" component={ForgetPasswordScreen}  />
+          <Stack.Screen name="VerifyOTP" component={VerifyOTPScreen}  />
+          <Stack.Screen name="ResetPassword" component={ResetPasswordScreen}  />
+          <Stack.Screen name="NewMusic" component={NewMusic}  />
+
+
+
+
+        </Stack.Navigator>
+      </NavigationContainer>
+    </AuthProvider>
   );
-}
-
-function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
-  return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
-  );
-}
-
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
+};
 
 export default App;
